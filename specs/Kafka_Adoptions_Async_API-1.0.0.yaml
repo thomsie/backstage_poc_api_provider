@@ -1,0 +1,73 @@
+asyncapi: '2.4.0'
+info:
+  title: Petstore Kafka - Adoptions
+  version: '1.0.0'
+  description: |
+    A simple demo API based on a real implementation. 
+    This is part of a stack.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  local:
+    url: localhost:9092
+    protocol: kafka
+    description: When running the dev stack.
+  compose:
+    url: kafka:9092
+    protocol: kafka
+    description: When running within docker-compose
+  
+
+defaultContentType: application/json
+
+channels:
+  adoptions.requested:
+    description: A new adoption was requested
+    publish:
+      summary: New Adoption.
+      operationId: addAdoption
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        payload: 
+          $ref: "https://api.swaggerhub.com/domains/SwaggerPMTests/petstore-common/1.0.0#/components/schemas/NewAdoption"
+
+  adoptions.statusChanged:
+    description: The status of the Adoption has changed.
+    subscribe:
+      traits: 
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        description: Adoption status changed
+        payload: 
+          $ref: "https://api.swaggerhub.com/domains/SwaggerPMTests/petstore-common/1.0.0#/components/schemas/AdoptionStatusChanged"
+    publish:
+      traits: 
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        description: Adoption status changed
+        payload: 
+          $ref: "https://api.swaggerhub.com/domains/SwaggerPMTests/petstore-common/1.0.0#/components/schemas/AdoptionStatusChanged"
+          
+  pets.statusChanged:
+    description: The status of the Pet has changed.
+    subscribe:
+      summary: Pet's status has changed.
+      operationId: changePetStatus
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        description: New Pets
+        payload: 
+          $ref: "https://api.swaggerhub.com/domains/SwaggerPMTests/petstore-common/1.0.0#/components/schemas/PetStatusChange"
+
+components:
+  operationTraits:
+    kafka:
+      bindings:
+        kafka:
+          clientId: 
+            type: string
+            const: adoptions

@@ -1,0 +1,108 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage_poc_api_provider
+  description: Backstage PoC API Provider
+  links:
+    - url: https://github.com/swagger-api/petstore-kafka
+      title: Wiki documentation
+      icon: docs
+  tags:
+    - poc
+spec:
+  type: service
+  lifecycle: production-false
+  owner: "group:default/GO-SAFe-Furka"
+  providesApis:
+    - Pets_Adoption_API-1.0.0
+    - Petstore-1.0.0
+    - Kafka_Pets_Async_API-1.0.0
+    - Kafka_Adoptions_Async_API-1.0.0
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: Pets_Adoption_API-1.0.0
+  title: Pets Adoption API v1.0.0
+  description: "An API for tracking **Pets** and **Pet Adoptions** across our event and REST based petstore. This OpenAPI definition describes the RESTful APIs offered by the store."
+  links:
+    - url: https://github.com/swagger-api/petstore-kafka
+      title: API Dokumnetation
+      icon: docs
+  tags:
+    - poc
+    - openapi
+    - ready-to-use
+  labels:
+    example.com/custom: custom_label_value
+spec:
+  type: openapi
+  owner: "group:default/GO-SAFe-Furka"
+  lifecycle: experimental
+  definition:
+    $text: "./specs/Pets_Adoption_API-1.0.0.yaml"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: Petstore-1.0.0
+  title: Petstore SOAP Service v1.0.0
+  description: SOAP contract definition (WSDL) for the Petstore service
+  links:
+    - url: https://github.com/znsio/petstore-soap-website/blob/master/src/main/resources/petstore.wsdl
+      title: API Spec wsdl 
+      icon: docs
+  tags:
+    - poc
+    - wsdl
+    - ready-to-use
+spec:
+  type: wsdl
+  lifecycle: production
+  owner: "group:default/GO-SAFe-Furka"
+  definition:
+    $text: "./specs/Petstore-1.0.0.wsdl"
+--- 
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: Kafka_Pets_Async_API-1.0.0
+  title: Kafka Pets Async API v1.0.0
+  description: Kafka Async API contract definition for the Petstore service
+  links:
+    - url: https://github.com/swagger-api/petstore-kafka
+      title: Kafka API Spec
+      icon: docs
+  tags:
+    - poc
+    - asyncapi
+    - ready-to-use
+spec:
+  type: asyncapi
+  lifecycle: experimental
+  owner: "group:default/GO-SAFe-Furka"
+  definition:
+    $text: "./specs/Kafka_Pets_Async_API-1.0.0.yaml"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: Kafka_Adoptions_Async_API-1.0.0
+  title: Kafka Adoption Async API v1.0.0
+  description: "Kafka Async API contract definition for the Petstore service"
+  links:
+    - url: https://github.com/swagger-api/petstore-kafka
+      title: Kafka API Spec 
+      icon: docs
+  tags:
+    - poc
+    - asyncapi
+    - ready-to-use
+spec:
+  type: asyncapi
+  lifecycle: experimental
+  owner: "group:default/GO-SAFe-Furka"
+  definition:
+    $text: "./specs/Kafka_Adoptions_Async_API-1.0.0.yaml"
+
